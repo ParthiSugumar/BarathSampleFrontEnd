@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import './svg.css';
 import * as d3 from 'd3';
-
-var str = '<rect x="50" y="50" width="400" height="100" style="fill:rgb(0,0,255);stroke-width:10;stroke:rgb(0,0,0)"/><circle cx="450" cy="50" r="20" fill="green"/>'
+var safeStyle = {
+    fill: 'green'
+}
+var unSafeStyle = {
+    fill: 'red'
+}
 class Svg extends Component {
     componentDidMount() {
         this.rotateLogo();
@@ -10,21 +14,44 @@ class Svg extends Component {
     componentDidUpdate() {
         this.rotateLogo();
     }
+    scale= Math.min(Math.floor(this.props.totalHeight / this.props.LayoutHeight),
+        Math.floor(this.props.totalWidth / this.props.LayoutWidth));
     render() {
         return <svg ref={node => this.node = node}
-            width={500} height={500}>
+        height={this.props.totalHeight.toString()}
+        width={this.props.totalWidth.toString()}>
+        {
+            this.props.machine.map(machine =>
+            <svg>
+                <svg>
+                     <circle
+                        cx={(machine.pointX + machine.machineWidth) * this.scale}
+                        cy={machine.pointY * this.scale}
+                        r="10"
+                        style={
+                            machine.machineStatus == 1 ?
+                            safeStyle : unSafeStyle
+                        }/>
+                </svg>
+                <svg
+                width={ (machine.machineWidth * this.scale).toString()}
+                height={ (machine.machineHeight * this.scale).toString()}
+                x={ (machine.pointX * this.scale).toString()}
+                y={ (machine.pointY * this.scale).toString()}
+                dangerouslySetInnerHTML={{ __html: machine.svgString }}/>
+            </svg>
+            )
+        }
         </svg>
     }
     rotateLogo() {
         const node = this.node
         d3.select(node)
-            .html(str)
             .select('circle')
             .transition().duration(2000)
-            .style('fill', 'red').delay(1000)
+            .style('fill', 'white').delay(1000)
             .transition().duration(2000)
-            .style('fill', 'green').delay(1000)
+            .style('fill', 'black').delay(1000)
     }
 }
-
 export default Svg;
