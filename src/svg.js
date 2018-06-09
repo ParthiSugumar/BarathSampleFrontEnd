@@ -8,50 +8,51 @@ var unSafeStyle = {
     fill: 'red'
 }
 class Svg extends Component {
-    componentDidMount() {
-        this.rotateLogo();
-    }
-    componentDidUpdate() {
-        this.rotateLogo();
-    }
+    // componentDidMount() {
+    //     this.rotateLogo();
+    // }
+    // componentDidUpdate() {
+    //     this.rotateLogo();
+    // }
     scale = Math.min(Math.floor(this.props.totalHeight / this.props.LayoutHeight),
         Math.floor(this.props.totalWidth / this.props.LayoutWidth));
     render() {
-        return <svg ref={node => this.node = node}
+        return <svg
             height={this.props.totalHeight.toString()}
             width={this.props.totalWidth.toString()}>
             {
                 this.props.machine.map(machine =>
-                    <svg>
+                    <g onClick={this.rotateLogo}>
                         <svg>
-                            <circle
-                                cx={(machine.pointX + machine.machineWidth) * this.scale}
-                                cy={machine.pointY * this.scale}
-                                r="10"
-                                style={
-                                    machine.machineStatus == 1 ?
-                                        safeStyle : unSafeStyle
-                                } />
+                            <svg
+                                width={(machine.machineWidth * this.scale).toString()}
+                                height={(machine.machineHeight * this.scale).toString()}
+                                x={(machine.pointX * this.scale).toString()}
+                                y={(machine.pointY * this.scale).toString()}
+                                dangerouslySetInnerHTML={{ __html: machine.svgString }} />
+                            <svg>
+                                <circle
+                                    cx={(machine.pointX + machine.machineWidth) * this.scale}
+                                    cy={machine.pointY * this.scale}
+                                    r="10"
+                                    style={
+                                        machine.machineStatus == 1 ?
+                                            safeStyle : unSafeStyle
+                                    } />
+                            </svg>
                         </svg>
-                        <svg
-                            width={(machine.machineWidth * this.scale).toString()}
-                            height={(machine.machineHeight * this.scale).toString()}
-                            x={(machine.pointX * this.scale).toString()}
-                            y={(machine.pointY * this.scale).toString()}
-                            dangerouslySetInnerHTML={{ __html: machine.svgString }} />
-                    </svg>
+                    </g>
                 )
             }
         </svg>
     }
     rotateLogo() {
-        const node = this.node
-        d3.select(node)
-            .select('circle')
-            .transition().duration(2000)
-            .style('fill', 'white').delay(1000)
-            .transition().duration(2000)
-            .style('fill', 'black').delay(1000)
+        //const node = this.node
+        d3.select('rect')
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("height", 400)
+            .attr("width", 800)
     }
 }
 export default Svg;

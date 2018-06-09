@@ -7,7 +7,7 @@ var Machine = [
     {
         svgString: '<rect width="100%" height="100%" style="fill:red;stroke-width:10;stroke:rgb(0,0,0)"/>',
         pointX: 0,
-        pointY: 0,
+        pointY: 2,
         machineHeight: 1,
         machineWidth: 2,
         machineID: 'machine-1',
@@ -16,7 +16,7 @@ var Machine = [
     {
         svgString: '<rect width="100%" height="100%" style="fill:rgb(0,0,255);stroke-width:10;stroke:rgb(0,0,0)"/>',
         pointX: 5,
-        pointY: 0,
+        pointY: 2,
         machineHeight: 1,
         machineWidth: 2,
         machineID: 'machine-2',
