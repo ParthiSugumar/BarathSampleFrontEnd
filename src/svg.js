@@ -25,6 +25,7 @@ class Svg extends Component {
                     <g onClick={this.rotateLogo}>
                         <svg>
                             <svg
+                                id={machine.machineID}
                                 width={(machine.machineWidth * this.scale).toString()}
                                 height={(machine.machineHeight * this.scale).toString()}
                                 x={(machine.pointX * this.scale).toString()}
@@ -47,12 +48,11 @@ class Svg extends Component {
         </svg>
     }
     rotateLogo() {
-        //const node = this.node
-        d3.select('rect')
+        d3.select("#machine-4")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("height", 400)
-            .attr("width", 800)
+            .attr("width", "100%")
+            .attr("height", "100%")
     }
 }
 export default Svg;
