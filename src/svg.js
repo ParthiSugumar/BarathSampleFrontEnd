@@ -40,6 +40,11 @@ class Svg extends Component {
                                     machine.machineStatus === 1 ?
                                         safeStyle : unSafeStyle
                                 } />
+                            {
+                                machine.machineStatus === 0 ?
+                                    this.alarmSignal(machine.machineID) :
+                                    undefined
+                            }
                         </svg>
                     </g>
                 )
@@ -78,6 +83,15 @@ class Svg extends Component {
             d3.select("." + machine.machineID)
                 .style("opacity", 1)
         )
+    }
+    alarmSignal(id) {
+        d3.interval(function (elapsed) {
+            d3.select("." + id)
+                .transition()
+                .style("opacity", 0)
+                .transition()
+                .style("opacity", 1)
+        }, 400)
     }
 }
 export default Svg;
