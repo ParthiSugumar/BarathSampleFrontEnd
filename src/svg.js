@@ -22,7 +22,7 @@ class Svg extends Component {
                 width={this.props.totalWidth.toString()}>
                 {
                     this.props.machine.map(machine =>
-                        <g onClick={() => this.rotateLogo(machine.machineID,
+                        <g onClick={() => this.machineZoom(machine.machineID,
                             (machine.pointX * this.scale).toString(),
                             (machine.pointY * this.scale).toString(),
                             (machine.machineHeight * this.scale).toString(),
@@ -47,7 +47,7 @@ class Svg extends Component {
                                     } />
                                 {
                                     machine.machineStatus === 0 ?
-                                        this.alarmSignal(machine.machineID) :
+                                        this.alarmBlink(machine.machineID) :
                                         undefined
                                 }
                             </svg>
@@ -57,12 +57,12 @@ class Svg extends Component {
             </svg>
             <div style={{ position: "absolute", left: this.props.totalWidth, top: 0 }}>
                 <button
-                    onClick={() => this.returnLogo(this.id1, this.px1, this.py1, this.h1, this.w1)}>X
+                    onClick={() => this.machineClose(this.id1, this.px1, this.py1, this.h1, this.w1)}>X
                 </button>
             </div>
         </div>
     }
-    rotateLogo(id, px, py, h, w) {
+    machineZoom(id, px, py, h, w) {
         this.id1 = id;
         this.px1 = px;
         this.py1 = py;
@@ -85,7 +85,7 @@ class Svg extends Component {
                 .style("opacity", 0)
         )
     }
-    returnLogo(id, px, py, h, w) {
+    machineClose(id, px, py, h, w) {
         d3.select("#" + id)
             .attr("x", px)
             .attr("y", py)
@@ -100,7 +100,7 @@ class Svg extends Component {
                 .style("opacity", 1)
         )
     }
-    alarmSignal(id) {
+    alarmBlink(id) {
         d3.interval(function (elapsed) {
             d3.select("." + id)
                 .transition()
