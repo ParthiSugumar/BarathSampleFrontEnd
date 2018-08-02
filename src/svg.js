@@ -13,9 +13,13 @@ class Svg extends Component {
     py1 = 0;
     h1 = 0;
     w1 = 0;
-    scale = Math.min(Math.floor(this.props.totalHeight / this.props.LayoutHeight),
-        Math.floor(this.props.totalWidth / this.props.LayoutWidth));
+
+    scale = 0;
+
     render() {
+        this.scale = Math.min(Math.floor(this.props.totalHeight / this.props.LayoutHeight),
+    Math.floor(this.props.totalWidth / this.props.LayoutWidth));
+
         return <div>
             <svg
                 height={this.props.totalHeight.toString()}

@@ -6,6 +6,7 @@
     "d3": "^5.4.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-measure": "^2.0.2",
     "react-scripts": "1.1.4"
   },
   "scripts": {

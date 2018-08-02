@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Svg from './svg';
 import registerServiceWorker from './registerServiceWorker';
+import ResponsiveWrapper from './utils/ResponsiveWrapper';
+
 var Machine = [
     {
         svgString: `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -365,5 +367,22 @@ var Machine = [
         machineStatus: 1
     }
 ]
-ReactDOM.render(<Svg machine={Machine} totalHeight={400} totalWidth={800} LayoutHeight={4} LayoutWidth={16} />, document.getElementById('root'));
+
+ReactDOM.render(
+    <div style={{
+        width: '100%',
+        height: '100%'
+    }}>
+       <ResponsiveWrapper>
+        {({ width, height }) => <Svg 
+            machine={Machine} 
+            totalHeight={height} 
+            totalWidth={width} 
+            LayoutHeight={4} 
+            LayoutWidth={12} />}
+        </ResponsiveWrapper>
+    </div>
+    ,
+    document.getElementById('root')
+);
 registerServiceWorker();
