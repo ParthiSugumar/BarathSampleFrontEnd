@@ -13,7 +13,6 @@ class Svg extends Component {
     py1 = 0;
     h1 = 0;
     w1 = 0;
-
     scale = 0;
 
     render() {
@@ -39,7 +38,7 @@ class Svg extends Component {
                                 x={(machine.pointX * this.scale).toString()}
                                 y={(machine.pointY * this.scale).toString()}
                                 dangerouslySetInnerHTML={{ __html: machine.svgString }} />
-                            <svg>
+                            <svg class='alarm' sty>
                                 <circle
                                     class={machine.machineID}
                                     cx={(machine.pointX + machine.machineWidth) * this.scale}
@@ -59,24 +58,33 @@ class Svg extends Component {
                     )
                 }
             </svg>
-            <div style={{ position: "absolute", left: this.props.totalWidth, top: 0 }}>
+            <div id='closeBtn' style={{ opacity:0, position: "absolute", left: this.props.totalWidth - 50, top: 0 }}>
                 <button
                     onClick={() => this.machineClose(this.id1, this.px1, this.py1, this.h1, this.w1)}>X
                 </button>
             </div>
         </div>
     }
+
     machineZoom(id, px, py, h, w) {
         this.id1 = id;
         this.px1 = px;
         this.py1 = py;
         this.h1 = h;
         this.w1 = w;
+
+        d3.selectAll(".alarm")
+            .style("opacity", 0)
+
+        d3.select("#closeBtn")
+            .style("opacity", 1)
+
         d3.select("#" + id)
             .attr("x", 0)
             .attr("y", 0)
             .attr("width", "100%")
             .attr("height", "100%")
+
         this.props.machine.map(machine =>
             machine.machineID === id ?
                 d3.select("#" + machine.machineID)
@@ -89,12 +97,20 @@ class Svg extends Component {
                 .style("opacity", 0)
         )
     }
+    
     machineClose(id, px, py, h, w) {
         d3.select("#" + id)
             .attr("x", px)
             .attr("y", py)
             .attr("height", h)
             .attr("width", w)
+
+        d3.selectAll(".alarm")
+            .style("opacity", 1)
+
+        d3.select("#closeBtn")
+            .style("opacity", 0)
+
         this.props.machine.map(machine =>
             d3.select("#" + machine.machineID)
                 .style("opacity", 1)
@@ -104,6 +120,7 @@ class Svg extends Component {
                 .style("opacity", 1)
         )
     }
+
     alarmBlink(id) {
         d3.interval(function (elapsed) {
             d3.select("." + id)
