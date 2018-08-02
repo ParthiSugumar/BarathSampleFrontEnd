@@ -14,10 +14,17 @@ class Svg extends Component {
     h1 = 0;
     w1 = 0;
     scale = 0;
+    
+    componentDidUpdate(){
+        if(this.id1 !== "")
+            this.machineZoom(this.id1, this.px1, this.py1, this.h1, this.w1);
+    }
 
     render() {
-        this.scale = Math.min(Math.floor(this.props.totalHeight / this.props.LayoutHeight),
-    Math.floor(this.props.totalWidth / this.props.LayoutWidth));
+        this.scale = Math.min(
+                        Math.floor(this.props.totalHeight / this.props.LayoutHeight),
+                        Math.floor(this.props.totalWidth / this.props.LayoutWidth)
+                    );
 
         return <div>
             <svg
@@ -38,7 +45,7 @@ class Svg extends Component {
                                 x={(machine.pointX * this.scale).toString()}
                                 y={(machine.pointY * this.scale).toString()}
                                 dangerouslySetInnerHTML={{ __html: machine.svgString }} />
-                            <svg class='alarm' sty>
+                            <svg class='alarm'>
                                 <circle
                                     class={machine.machineID}
                                     cx={(machine.pointX + machine.machineWidth) * this.scale}
@@ -119,6 +126,8 @@ class Svg extends Component {
             d3.select("." + machine.machineID)
                 .style("opacity", 1)
         )
+
+        this.id1 = "";
     }
 
     alarmBlink(id) {
