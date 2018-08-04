@@ -80,9 +80,6 @@ class Svg extends Component {
         this.h1 = h;
         this.w1 = w;
 
-        d3.selectAll(".alarm")
-            .style("opacity", 0)
-
         d3.select("#closeBtn")
             .style("opacity", 1)
 
@@ -99,10 +96,9 @@ class Svg extends Component {
                 d3.select("#" + machine.machineID)
                     .style("opacity", 0)
         )
-        this.props.machine.map(machine =>
-            d3.select("." + machine.machineID)
-                .style("opacity", 0)
-        )
+
+        d3.selectAll(".alarm")
+            .style("opacity", 0)
     }
     
     machineClose(id, px, py, h, w) {
@@ -112,9 +108,6 @@ class Svg extends Component {
             .attr("height", h)
             .attr("width", w)
 
-        d3.selectAll(".alarm")
-            .style("opacity", 1)
-
         d3.select("#closeBtn")
             .style("opacity", 0)
 
@@ -122,10 +115,9 @@ class Svg extends Component {
             d3.select("#" + machine.machineID)
                 .style("opacity", 1)
         )
-        this.props.machine.map(machine =>
-            d3.select("." + machine.machineID)
-                .style("opacity", 1)
-        )
+
+        d3.selectAll(".alarm")
+            .style("opacity", 1)
 
         this.id1 = "";
     }
@@ -137,7 +129,7 @@ class Svg extends Component {
                 .style("opacity", 0)
                 .transition()
                 .style("opacity", 1)
-        }, 400)
+        }, 500)
     }
 }
 export default Svg;
