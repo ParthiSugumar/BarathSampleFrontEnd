@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import APIClient from './api';
 import './svg.css';
 import * as d3 from 'd3';
+
 var safeStyle = {
     fill: 'green'
 }
@@ -14,10 +16,18 @@ class Svg extends Component {
     h1 = 0;
     w1 = 0;
     scale = 0;
+
+    constructor(){
+        super();
+        this.state={
+            tag:[]
+        };
+    }
     
     componentDidUpdate(){
-        if(this.id1 !== "")
+        if(this.id1 !== "" && this.state.tag === []){
             this.machineZoom(this.id1, this.px1, this.py1, this.h1, this.w1);
+        }
     }
 
     render() {
@@ -70,8 +80,19 @@ class Svg extends Component {
                     onClick={() => this.machineClose(this.id1, this.px1, this.py1, this.h1, this.w1)}>X
                 </button>
             </div>
+            <div id='data' style={{ opacity:0, position: "absolute", left: this.props.totalWidth - 300, top:50}}>
+                <p>{this.state.tag}</p>
+            </div>
         </div>
     }
+
+    getData(id) {
+        this.apiClient = new APIClient();
+        this.apiClient.my_index(id).then((data) =>
+            this.setState({...this.state,tag:data.data})
+        );
+        console.log(this.state.tag);
+      }
 
     machineZoom(id, px, py, h, w) {
         this.id1 = id;
@@ -99,6 +120,11 @@ class Svg extends Component {
 
         d3.selectAll(".alarm")
             .style("opacity", 0)
+
+        this.getData(id);
+
+        d3.select("#data")
+            .style("opacity", 1)
     }
     
     machineClose(id, px, py, h, w) {
@@ -108,7 +134,10 @@ class Svg extends Component {
             .attr("height", h)
             .attr("width", w)
 
-        d3.select("#closeBtn")
+            d3.select("#data")
+            .style("opacity", 0)
+        
+            d3.select("#closeBtn")
             .style("opacity", 0)
 
         this.props.machine.map(machine =>
@@ -120,6 +149,7 @@ class Svg extends Component {
             .style("opacity", 1)
 
         this.id1 = "";
+        this.setState({...this.state,tag:[]});
     }
 
     alarmBlink(id) {
@@ -129,7 +159,7 @@ class Svg extends Component {
                 .style("opacity", 0)
                 .transition()
                 .style("opacity", 1)
-        }, 500)
+        }, 1000)
     }
 }
 export default Svg;
