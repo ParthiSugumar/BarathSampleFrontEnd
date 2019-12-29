@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URI = 'http://127.0.0.1:5000/';
+const BASE_URI = 'http://localhost:5000';
 
 const client = axios.create({
  baseURL: BASE_URI,
@@ -20,7 +20,7 @@ class APIClient {
         url: resource,
         data,
       }).then(resp => {
-        return resp.data ? resp.data : [];
+        return resp.data ? resp.data : [[]];
       })
     }
    }

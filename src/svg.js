@@ -20,12 +20,12 @@ class Svg extends Component {
     constructor(){
         super();
         this.state={
-            tag:[]
+            tag:[[]]
         };
     }
     
     componentDidUpdate(){
-        if(this.id1 !== "" && this.state.tag === []){
+        if(this.id1 !== "" && this.state.tag === [[]]){
             this.machineZoom(this.id1, this.px1, this.py1, this.h1, this.w1);
         }
     }
@@ -81,7 +81,24 @@ class Svg extends Component {
                 </button>
             </div>
             <div id='data' style={{ opacity:0, position: "absolute", left: this.props.totalWidth - 300, top:50}}>
-                <p>{this.state.tag}</p>
+                <h1>{this.id1}</h1>
+                <table border="1">
+                    <tr>
+                        <th>Item</th>
+                        <th>Stock</th>
+                        <th>Price</th>
+                    </tr>
+                    {
+                        this.state.tag.map((lv)=>{
+                            return <tr>
+                                {lv.map((val)=>(
+                                    <td>{val}</td>
+                                ))
+                                }
+                            </tr>
+                        })
+                    }
+                </table>
             </div>
         </div>
     }
@@ -149,7 +166,7 @@ class Svg extends Component {
             .style("opacity", 1)
 
         this.id1 = "";
-        this.setState({...this.state,tag:[]});
+        this.setState({...this.state,tag:[[]]});
     }
 
     alarmBlink(id) {
