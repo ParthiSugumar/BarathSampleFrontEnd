@@ -37,6 +37,11 @@ class Svg extends Component {
                     );
 
         return <div>
+            <div id='exitBtn'>
+                <button style={{ opacity:1}}
+                    onClick={this.props.handleClicked}>Exit
+                </button>
+            </div>
             <svg
                 height={this.props.totalHeight.toString()}
                 width={this.props.totalWidth.toString()}>
@@ -109,7 +114,7 @@ class Svg extends Component {
             this.setState({...this.state,tag:data.data})
         );
         console.log(this.state.tag);
-      }
+    }
 
     machineZoom(id, px, py, h, w) {
         this.id1 = id;
@@ -120,6 +125,9 @@ class Svg extends Component {
 
         d3.select("#closeBtn")
             .style("opacity", 1)
+
+        d3.select("#exitBtn")
+            .style("opacity", 0)
 
         d3.select("#" + id)
             .attr("x", 0)
@@ -156,6 +164,9 @@ class Svg extends Component {
         
             d3.select("#closeBtn")
             .style("opacity", 0)
+
+            d3.select("#exitBtn")
+            .style("opacity", 1)
 
         this.props.machine.map(machine =>
             d3.select("#" + machine.machineID)
