@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import Entry from './entry';
 import registerServiceWorker from './registerServiceWorker';
 import Svg from './svg';
 
-ReactDOM.render(<Svg />, document.getElementById('root'));
+ReactDOM.render(
+    <Entry/>,
+    document.getElementById('root')
+);
 registerServiceWorker();
